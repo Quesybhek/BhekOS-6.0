@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BhekOS Integration Tests</title>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #00ff88;
+            margin-bottom: 30px;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .test-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid;
+        }
+        
+        .think-card { border-color: #00ff88; }
+        .work-card { border-color: #f9a84d; }
+        
+        .test-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .test-icon {
+            font-size: 32px;
+        }
+        
+        .test-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .test-status {
+            margin-left: auto;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-pass { background: #00ff8833; color: #00ff88; }
+        .status-fail { background: #ff525233; color: #ff5252; }
+        .status-pending { background: #f9a84d33; color: #f9a84d; }
+        
+        .test-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .test-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .test-item:last-child {
+            border-bottom: none;
+        }
+        
+        .test-item.pass { color: #00ff88; }
+        .test-item.fail { color: #ff5252; }
+        
+        .test-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        button.primary {
+            background: #00ff88;
+            color: black;
+            border: none;
+        }
+        
+        button.primary:hover {
+            background: #00dd77;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+        
+        .log-console {
+            background: black;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: monospace;
+            height: 200px;
+            overflow-y: auto;
+            margin-top: 30px;
+            border: 1px solid #00ff8833;
+        }
+        
+        .log-entry {
+            color: #00ff88;
+            margin: 5px 0;
+            font-size: 12px;
+        }
+        
+        .log-error {
+            color: #ff5252;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            margin-left: 8px;
+            background: rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔌 BhekOS Integration Test Suite</h1>
+        
+        <div class="test-grid">
+            <!-- BhekThink Card -->
+            <div class="test-card think-card">
+                <div class="test-header">
+                    <span class="test-icon">🤖</span>
+                    <span class="test-title">BhekThink AI Sovereign</span>
+                    <span class="test-status status-pending" id="think-status">PENDING</span>
+                </div>
+                
+                <ul class="test-list" id="think-tests">
+                    <li class="test-item" id="think-connection">
+                        <span>🔌 Connection Test</span>
+                        <span class="badge">Pending</span>
+                    </li>
+                    <li class="test-item" id="think-language">
+                        <span>🌐 Language Mesh (6 languages)</span>
+                        <span class="badge">Pending</span>
+                    </li>
+                    <li class="test-item" id="think-image">
+                        <span>🎨 Image Generation</span>
+                        <span class="badge">Pending</span>
+                    </li>
+                    <li class="test-item" id="think-voice">
+                        <span>🎤 Voice Support</span>
+                        <span class="badge">Pending</span>
+                    </li>
+                    <li class="test-item" id="think-history">
+                        <span>💾 Neural Memory</span>
+                        <span class="badge">Pending</span>
+                    </li>
+                    <li class="test-item" id="think-auth">
+                        <span>🔐 Puter.js Auth</span>
+                        <span class="badge">Pending</span>
+                    </li>
+                </ul>
+                
+                <div class="test-actions">
+                    <button class="primary" onclick="runThinkTests()">Run BhekThink Tests</button>
+                    <button onclick="openThinkInTab()">Open in Tab</button>
+                </div>
+            </div>
+            
+            <!-- BhekWork Card -->
+            <div class="test-card work-card">
+                <div class="test-header">
+                    <span class="test-icon">🌐</span>
+                    <span class="test-title">BhekWork Browser</span>
+                    <span class="test-status status-pending" id="work-status">PENDING</span>
+                </div>
+                
+                <ul class="test-list" id="work-tests">
+                    <li class="test-item" id="work-connection">
+                        <span>🔌 Connection Test</span>
+                        <span class="badge">Pending</span>
+                    </li>
+                    <li class="test-item" id="work-engines">
+                        <span>🔍 Search Engines (6)</span>
+                        <span class="badge">Pending</span>
+                    </li>
+                    <li class="test-item" id="work-voice">
+                        <span>🎤 Voice Search</span>
+                        <span class="badge">Pending</span>
+                    </li>
+                    <li class="test-item" id="work-bookmarks">
+                        <span>⭐ Bookmarks</span>
+                        <span class="badge">Pending</span>
+                    </li>
+                    <li class="test-item" id="work-history">
+                        <span>📋 Search History</span>
+                        <span class="badge">Pending</span>
+                    </li>
+                    <li class="test-item" id="work-weather">
+                        <span>☁️ Weather API</span>
+                        <span class="badge">Pending</span>
+                    </li>
+                    <li class="test-item" id="work-utilities">
+                        <span>🔧 Password Generator</span>
+                        <span class="badge">Pending</span>
+                    </li>
+                </ul>
+                
+                <div class="test-actions">
+                    <button class="primary" onclick="runWorkTests()">Run BhekWork Tests</button>
+                    <button onclick="openWorkInTab()">Open in Tab</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="total-tests">0</div>
+                <div class="stat-label">Total Tests</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="passed-tests">0</div>
+                <div class="stat-label">Passed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="failed-tests">0</div>
+                <div class="stat-label">Failed</div>
+            </div>
+        </div>
+        
+        <!-- Console Log -->
+        <div class="log-console" id="log-console">
+            <div class="log-entry">⚡ Integration test console ready...</div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+            <button onclick="runAllTests()">▶️ Run All Tests</button>
+            <button onclick="clearLog()">🗑️ Clear Log</button>
+            <button onclick="exportResults()">📥 Export Results</button>
+        </div>
+    </div>
+    
+    <script>
+        const logConsole = document.getElementById('log-console');
+        let testResults = {
+            think: { passed: 0, failed: 0, total: 6 },
+            work: { passed: 0, failed: 0, total: 7 }
+        };
+        
+        function log(message, isError = false) {
+            const entry = document.createElement('div');
+            entry.className = isError ? 'log-entry log-error' : 'log-entry';
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logConsole.appendChild(entry);
+            logConsole.scrollTop = logConsole.scrollHeight;
+        }
+        
+        function updateStats() {
+            const total = testResults.think.total + testResults.work.total;
+            const passed = testResults.think.passed + testResults.work.passed;
+            const failed = testResults.think.failed + testResults.work.failed;
+            
+            document.getElementById('total-tests').textContent = total;
+            document.getElementById('passed-tests').textContent = passed;
+            document.getElementById('failed-tests').textContent = failed;
+        }
+        
+        function updateTestStatus(testId, passed, message) {
+            const element = document.getElementById(testId);
+            if (element) {
+                element.className = `test-item ${passed ? 'pass' : 'fail'}`;
+                const badge = element.querySelector('.badge');
+                if (badge) {
+                    badge.textContent = passed ? 'PASS' : 'FAIL';
+                    badge.style.background = passed ? '#00ff8833' : '#ff525233';
+                    badge.style.color = passed ? '#00ff88' : '#ff5252';
+                }
+            }
+            log(message, !passed);
+        }
+        
+        async function runThinkTests() {
+            log('🤖 Running BhekThink tests...');
+            
+            // Test 1: Connection
+            try {
+                const status = window.os?.integrations?.bhekthink?.getStatus();
+                if (status) {
+                    testResults.think.passed++;
+                    updateTestStatus('think-connection', true, '✅ Connection test passed');
+                } else {
+                    throw new Error('Not initialized');
+                }
+            } catch (error) {
+                testResults.think.failed++;
+                updateTestStatus('think-connection', false, '❌ Connection test failed');
+            }
+            
+            // Test 2: Language Mesh
+            try {
+                const bhekthink = window.os?.integrations?.bhekthink;
+                bhekthink.setLanguage('Twi');
+                const lang = bhekthink.getLanguage();
+                if (lang === 'Twi') {
+                    testResults.think.passed++;
+                    updateTestStatus('think-language', true, '✅ Language test passed');
+                } else {
+                    throw new Error('Language not set');
+                }
+            } catch (error) {
+                testResults.think.failed++;
+                updateTestStatus('think-language', false, '❌ Language test failed');
+            }
+            
+            // Test 3: Image Generation
+            try {
+                const bhekthink = window.os?.integrations?.bhekthink;
+                const promise = bhekthink.generateImage('test');
+                if (promise instanceof Promise) {
+                    testResults.think.passed++;
+                    updateTestStatus('think-image', true, '✅ Image generation test passed');
+                } else {
+                    throw new Error('Not a promise');
+                }
+            } catch (error) {
+                testResults.think.failed++;
+                updateTestStatus('think-image', false, '❌ Image generation test failed');
+            }
+            
+            // Test 4: Voice Support
+            try {
+                const bhekthink = window.os?.integrations?.bhekthink;
+                if (typeof bhekthink.speak === 'function') {
+                    testResults.think.passed++;
+                    updateTestStatus('think-voice', true, '✅ Voice support test passed');
+                } else {
+                    throw new Error('Voice not available');
+                }
+            } catch (error) {
+                testResults.think.failed++;
+                updateTestStatus('think-voice', false, '❌ Voice support test failed');
+            }
+            
+            // Test 5: History
+            try {
+                const bhekthink = window.os?.integrations?.bhekthink;
+                const initial = bhekthink.conversationHistory.length;
+                bhekthink.saveToHistory('test', 'response');
+                if (bhekthink.conversationHistory.length > initial) {
+                    testResults.think.passed++;
+                    updateTestStatus('think-history', true, '✅ Neural memory test passed');
+                } else {
+                    throw new Error('History not saving');
+                }
+            } catch (error) {
+                testResults.think.failed++;
+                updateTestStatus('think-history', false, '❌ Neural memory test failed');
+            }
+            
+            // Test 6: Authentication
+            try {
+                const bhekthink = window.os?.integrations?.bhekthink;
+                const promise = bhekthink.signIn();
+                if (promise instanceof Promise) {
+                    testResults.think.passed++;
+                    updateTestStatus('think-auth', true, '✅ Auth test passed');
+                } else {
+                    throw new Error('Auth not available');
+                }
+            } catch (error) {
+                testResults.think.failed++;
+                updateTestStatus('think-auth', false, '❌ Auth test failed');
+            }
+            
+            // Update status
+            const statusEl = document.getElementById('think-status');
+            statusEl.textContent = testResults.think.failed === 0 ? 'PASSED' : 'FAILED';
+            statusEl.className = `test-status ${testResults.think.failed === 0 ? 'status-pass' : 'status-fail'}`;
+            
+            updateStats();
+            log(`📊 BhekThink: ${testResults.think.passed}/${testResults.think.total} passed`);
+        }
+        
+        async function runWorkTests() {
+            log('🌐 Running BhekWork tests...');
+            
+            // Test 1: Connection
+            try {
+                const status = window.os?.integrations?.bhekwork?.getStatus();
+                if (status) {
+                    testResults.work.passed++;
+                    updateTestStatus('work-connection', true, '✅ Connection test passed');
+                } else {
+                    throw new Error('Not initialized');
+                }
+            } catch (error) {
+                testResults.work.failed++;
+                updateTestStatus('work-connection', false, '❌ Connection test failed');
+            }
+            
+            // Test 2: Search Engines
+            try {
+                const bhekwork = window.os?.integrations?.bhekwork;
+                if (bhekwork.config.supportedEngines.length === 6) {
+                    testResults.work.passed++;
+                    updateTestStatus('work-engines', true, '✅ Search engines test passed');
+                } else {
+                    throw new Error('Wrong engine count');
+                }
+            } catch (error) {
+                testResults.work.failed++;
+                updateTestStatus('work-engines', false, '❌ Search engines test failed');
+            }
+            
+            // Test 3: Voice Search
+            try {
+                const bhekwork = window.os?.integrations?.bhekwork;
+                if (typeof bhekwork.voiceSearch === 'function') {
+                    testResults.work.passed++;
+                    updateTestStatus('work-voice', true, '✅ Voice search test passed');
+                } else {
+                    throw new Error('Voice not available');
+                }
+            } catch (error) {
+                testResults.work.failed++;
+                updateTestStatus('work-voice', false, '❌ Voice search test failed');
+            }
+            
+            // Test 4: Bookmarks
+            try {
+                const bhekwork = window.os?.integrations?.bhekwork;
+                const initial = bhekwork.bookmarks.length;
+                bhekwork.addBookmark('https://test.com', 'Test');
+                bhekwork.removeBookmark('https://test.com');
+                if (bhekwork.bookmarks.length === initial) {
+                    testResults.work.passed++;
+                    updateTestStatus('work-bookmarks', true, '✅ Bookmarks test passed');
+                } else {
+                    throw new Error('Bookmarks not working');
+                }
+            } catch (error) {
+                testResults.work.failed++;
+                updateTestStatus('work-bookmarks', false, '❌ Bookmarks test failed');
+            }
+            
+            // Test 5: History
+            try {
+                const bhekwork = window.os?.integrations?.bhekwork;
+                const initial = bhekwork.searchHistory.length;
+                bhekwork.addToHistory('test', 'google');
+                if (bhekwork.searchHistory.length > initial) {
+                    testResults.work.passed++;
+                    updateTestStatus('work-history', true, '✅ History test passed');
+                } else {
+                    throw new Error('History not saving');
+                }
+            } catch (error) {
+                testResults.work.failed++;
+                updateTestStatus('work-history', false, '❌ History test failed');
+            }
+            
+            // Test 6: Weather
+            try {
+                const bhekwork = window.os?.integrations?.bhekwork;
+                const weather = await bhekwork.getWeather('Accra');
+                if (weather && weather !== 'N/A') {
+                    testResults.work.passed++;
+                    updateTestStatus('work-weather', true, `✅ Weather test passed: ${weather}`);
+                } else {
+                    throw new Error('Weather not available');
+                }
+            } catch (error) {
+                testResults.work.failed++;
+                updateTestStatus('work-weather', false, '❌ Weather test failed');
+            }
+            
+            // Test 7: Utilities
+            try {
+                const bhekwork = window.os?.integrations?.bhekwork;
+                const password = bhekwork.generatePassword();
+                if (password.length >= 8) {
+                    testResults.work.passed++;
+                    updateTestStatus('work-utilities', true, '✅ Utilities test passed');
+                } else {
+                    throw new Error('Password too short');
+                }
+            } catch (error) {
+                testResults.work.failed++;
+                updateTestStatus('work-utilities', false, '❌ Utilities test failed');
+            }
+            
+            // Update status
+            const statusEl = document.getElementById('work-status');
+            statusEl.textContent = testResults.work.failed === 0 ? 'PASSED' : 'FAILED';
+            statusEl.className = `test-status ${testResults.work.failed === 0 ? 'status-pass' : 'status-fail'}`;
+            
+            updateStats();
+            log(`📊 BhekWork: ${testResults.work.passed}/${testResults.work.total} passed`);
+        }
+        
+        async function runAllTests() {
+            log('🚀 Running all integration tests...');
+            testResults = { think: { passed: 0, failed: 0, total: 6 }, work: { passed: 0, failed: 0, total: 7 } };
+            await runThinkTests();
+            await runWorkTests();
+            log('✨ All tests completed');
+        }
+        
+        function clearLog() {
+            logConsole.innerHTML = '<div class="log-entry">⚡ Log cleared</div>';
+        }
+        
+        function exportResults() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                results: testResults,
+                think: window.os?.integrations?.bhekthink?.getStatus(),
+                work: window.os?.integrations?.bhekwork?.getStatus()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `integration-test-${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            log('📥 Results exported');
+        }
+        
+        function openThinkInTab() {
+            window.open('https://quesybhek.github.io/BhekThink-AI-Pro/', '_blank');
+        }
+        
+        function openWorkInTab() {
+            window.open('https://quesybhek.github.io/BhekWork/', '_blank');
+        }
+        
+        // Auto-run on load
+        window.addEventListener('load', () => {
+            if (window.location.hash === '#auto-test') {
+                setTimeout(runAllTests, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
