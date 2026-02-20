@@ -329,3 +329,222 @@ input:checked + .settings-slider:before {
     max-width: 400px;
     display: none;
   }
+/* ==================== INTEGRATION STYLES ==================== */
+
+/* Integration Badges */
+.integration-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* BhekThink Specific */
+.bhekthink-active {
+    border-left: 3px solid #00ff88;
+    background: linear-gradient(90deg, rgba(0,255,136,0.1), transparent);
+}
+
+.think-glow {
+    box-shadow: 0 0 15px rgba(0,255,136,0.3);
+}
+
+.think-text {
+    color: #00ff88;
+}
+
+/* BhekWork Specific */
+.bhekwork-active {
+    border-left: 3px solid #f9a84d;
+    background: linear-gradient(90deg, rgba(249,168,77,0.1), transparent);
+}
+
+.work-glow {
+    box-shadow: 0 0 15px rgba(249,168,77,0.3);
+}
+
+.work-text {
+    color: #f9a84d;
+}
+
+/* Integration Cards */
+.integration-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.integration-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Status Indicators */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.status-dot.connected {
+    background: #4CAF50;
+    box-shadow: 0 0 10px #4CAF50;
+    animation: pulse 2s infinite;
+}
+
+.status-dot.disconnected {
+    background: #ff5252;
+}
+
+.status-dot.connecting {
+    background: #f9a84d;
+    animation: pulse 1s infinite;
+}
+
+/* Integration Modals */
+.modal-think {
+    border: 1px solid #00ff88;
+    box-shadow: 0 0 30px rgba(0,255,136,0.2);
+}
+
+.modal-work {
+    border: 1px solid #f9a84d;
+    box-shadow: 0 0 30px rgba(249,168,77,0.2);
+}
+
+/* Animations */
+@keyframes neural-pulse {
+    0% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 0.5; transform: scale(1); }
+}
+
+.neural-animation {
+    animation: neural-pulse 3s infinite;
+}
+
+@keyframes matrix-rain {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 0% 100%; }
+}
+
+.matrix-bg {
+    background: linear-gradient(180deg, transparent, rgba(0,255,136,0.1), transparent);
+    background-size: 100% 200%;
+    animation: matrix-rain 10s linear infinite;
+}
+
+/* Integration Icons */
+.icon-think {
+    filter: drop-shadow(0 0 5px #00ff88);
+}
+
+.icon-work {
+    filter: drop-shadow(0 0 5px #f9a84d);
+}
+
+/* Progress Bars */
+.integration-progress {
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.integration-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff88, #f9a84d);
+    animation: progress 2s ease-in-out infinite;
+    width: 50%;
+}
+
+@keyframes progress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+}
+
+/* Integration Footer */
+.footer-think {
+    background: #00ff8811;
+    border-top: 1px solid #00ff8833;
+}
+
+.footer-work {
+    background: #f9a84d11;
+    border-top: 1px solid #f9a84d33;
+}
+
+/* Tooltips */
+[data-tooltip] {
+    position: relative;
+    cursor: help;
+}
+
+[data-tooltip]:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 8px;
+    background: rgba(0,0,0,0.9);
+    color: white;
+    font-size: 11px;
+    border-radius: 4px;
+    white-space: nowrap;
+    display: none;
+    z-index: 1000;
+    border: 1px solid var(--accent);
+}
+
+[data-tooltip]:hover:before {
+    display: block;
+}
+
+/* Integration Status Overlay */
+#integration-status {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    background: rgba(0,0,0,0.95);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 16px;
+    z-index: 10001;
+    backdrop-filter: blur(10px);
+    min-width: 280px;
+    animation: slideIn 0.3s ease;
+}
+
+/* Responsive Integration */
+@media (max-width: 768px) {
+    .integration-badge {
+        font-size: 8px;
+        padding: 1px 4px;
+    }
+    
+    #integration-status {
+        left: 20px;
+        right: 20px;
+        width: auto;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .integration-badge,
+    #integration-status,
+    .think-glow,
+    .work-glow {
+        display: none !important;
+    }
+} 
