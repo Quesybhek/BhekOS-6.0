@@ -1,0 +1,86 @@
+/* ==================== CSS RESET & VARIABLES ==================== */
+:root {
+    --mica: rgba(20,20,20,0.85);
+    --mica-light: rgba(255,255,255,0.08);
+    --mica-border: rgba(255,255,255,0.15);
+    --accent: #0078d4;
+    --accent-hover: #1081dd;
+    --font: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+    --glass: blur(45px) saturate(210%) brightness(110%);
+    --taskbar-height: 48px;
+    --titlebar-height: 40px;
+    --accent-rgb: 0, 120, 212;
+}
+
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+body, html { 
+    height: 100%; 
+    font-family: var(--font); 
+    overflow: hidden; 
+    background: #000; 
+    color: white; 
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+/* ==================== DESKTOP ==================== */
+#desktop { 
+    width: 100vw; 
+    height: 100vh; 
+    position: relative; 
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), 
+                url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=2564&q=80') center/cover fixed; 
+}
+
+/* ==================== SCROLLBARS ==================== */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ==================== MOBILE OPTIMIZATIONS ==================== */
+@media (max-width: 768px) {
+    :root {
+        --taskbar-height: 56px;
+    }
+    
+    .window { 
+        width: 95vw !important; 
+        height: 80vh !important; 
+        left: 2.5vw !important; 
+        top: 10vh !important; 
+    }
+    
+    #startMenu { 
+        width: 100vw; 
+        height: 70vh; 
+    }
+    
+    .desktop-icons { 
+        gap: 10px; 
+    }
+    
+    .desktop-icon { 
+        width: 70px; 
+    }
+}
