@@ -1,4 +1,4 @@
-// Main OS Class
+// Main OS Class with Integrations
 class BhekOS {
     constructor() {
         this.version = "6.0.0";
@@ -7,11 +7,16 @@ class BhekOS {
         // Initialize modules
         this.security = new BhekSecurity(this);
         this.wm = new WindowManager(this);
+        this.appManager = new AppManager(this);
+        
+        // Initialize integrations object
+        this.integrations = {};
         
         // State
         this.selectedDesktopIcon = null;
         this.wallpaper = BhekStorage.load('wallpaper', 'default');
         this.deferredPrompt = null;
+        this.startMenuVisible = false;
         
         // Initialize
         this.init();
@@ -26,11 +31,117 @@ class BhekOS {
         this.setupPWA();
         this.startClock();
         
+        // Initialize integrations
+        this.initIntegrations();
+        
         // Start security monitoring
         this.security.startInactivityMonitoring();
         
         // Show welcome
         setTimeout(() => this.notify('BhekOS 6.0', 'System initialized and ready'), 1000);
+        setTimeout(() => this.notify('Integrations', 'BhekThink and BhekWork available'), 2000);
+    }
+
+    // Initialize integrations
+    initIntegrations() {
+        // Initialize BhekThink with live URL
+        try {
+            if (typeof BhekThinkBridge !== 'undefined') {
+                BhekThinkBridge.config.appUrl = 'https://quesybhek.github.io/BhekThink-AI-Pro/';
+                this.integrations.bhekthink = BhekThinkBridge.init(this);
+                console.log('✅ BhekThink AI integration initialized');
+            } else {
+                console.warn('BhekThinkBridge not found');
+            }
+        } catch (error) {
+            console.error('Failed to initialize BhekThink:', error);
+        }
+
+        // Initialize BhekWork with live URL
+        try {
+            if (typeof BhekWorkBridge !== 'undefined') {
+                BhekWorkBridge.config.appUrl = 'https://quesybhek.github.io/BhekWork/';
+                this.integrations.bhekwork = BhekWorkBridge.init(this);
+                console.log('✅ BhekWork Browser integration initialized');
+            } else {
+                console.warn('BhekWorkBridge not found');
+            }
+        } catch (error) {
+            console.error('Failed to initialize BhekWork:', error);
+        }
+        
+        // Update integration indicators
+        this.updateIntegrationIndicators();
+    }
+
+    // Update taskbar indicators
+    updateIntegrationIndicators() {
+        const thinkIndicator = document.getElementById('think-status');
+        const workIndicator = document.getElementById('work-status');
+        
+        if (thinkIndicator) {
+            const connected = this.integrations.bhekthink?.isConnected;
+            thinkIndicator.className = `security-indicator ${connected ? 'security-high' : 'security-low'}`;
+        }
+        
+        if (workIndicator) {
+            const connected = this.integrations.bhekwork?.isConnected;
+            workIndicator.className = `security-indicator ${connected ? 'security-high' : 'security-low'}`;
+        }
+    }
+
+    // Process AI request through BhekThink
+    async processAIRequest(message, context = {}) {
+        if (this.integrations.bhekthink) {
+            return await this.integrations.bhekthink.processMessage(message, context);
+        }
+        return "BhekThink integration not available";
+    }
+
+    // Open browser through BhekWork
+    openBrowser(url) {
+        if (this.integrations.bhekwork) {
+            return this.integrations.bhekwork.search(url || '');
+        }
+        window.open('https://google.com', '_blank');
+        return null;
+    }
+
+    // Get integration status
+    getIntegrationStatus() {
+        return {
+            bhekthink: this.integrations.bhekthink?.getStatus() || { connected: false },
+            bhekwork: this.integrations.bhekwork?.getStatus() || { connected: false }
+        };
+    }
+
+    // Test all integrations
+    async testAllIntegrations() {
+        this.notify('Testing', 'Running integration tests...', 'info');
+        
+        const results = {
+            bhekthink: null,
+            bhekwork: null
+        };
+        
+        if (this.integrations.bhekthink) {
+            results.bhekthink = await this.integrations.bhekthink.testConnection();
+        }
+        
+        if (this.integrations.bhekwork) {
+            results.bhekwork = await this.integrations.bhekwork.testConnection();
+        }
+        
+        const allPassed = results.bhekthink?.success && results.bhekwork?.success;
+        
+        this.notify(
+            'Integration Test',
+            allPassed ? '✅ All integrations working!' : '⚠️ Some integrations failed',
+            allPassed ? 'success' : 'warning'
+        );
+        
+        console.log('Integration test results:', results);
+        return results;
     }
 
     setWallpaper() {
@@ -49,7 +160,7 @@ class BhekOS {
     initIconSettings() {
         if (!BhekStorage.load('iconSettings')) {
             const defaultSettings = {};
-            ['explorer', 'terminal', 'browser', 'media', 'settings', 'games', 'ai', 'notepad', 'calculator', 'paint']
+            ['explorer', 'terminal', 'browser', 'media', 'settings', 'games', 'ai', 'notepad', 'calculator', 'paint', 'app-store', 'integration-settings']
                 .forEach(type => {
                     defaultSettings[type] = {
                         emoji: this.getDefaultIcon(type),
@@ -66,7 +177,8 @@ class BhekOS {
         const map = {
             'explorer': '📁', 'terminal': '💻', 'browser': '🌐',
             'media': '🎵', 'settings': '⚙️', 'games': '🎮',
-            'ai': '🤖', 'notepad': '📝', 'calculator': '🧮', 'paint': '🎨'
+            'ai': '🤖', 'notepad': '📝', 'calculator': '🧮', 
+            'paint': '🎨', 'app-store': '📱', 'integration-settings': '🔌'
         };
         return map[type] || '📄';
     }
@@ -75,12 +187,12 @@ class BhekOS {
         const map = {
             'explorer': '#4CAF50', 'terminal': '#2196F3', 'browser': '#FF9800',
             'media': '#9C27B0', 'settings': '#607D8B', 'games': '#E91E63',
-            'ai': '#00BCD4', 'notepad': '#009688', 'calculator': '#FF5722', 'paint': '#8BC34A'
+            'ai': '#00BCD4', 'notepad': '#009688', 'calculator': '#FF5722', 
+            'paint': '#8BC34A', 'app-store': '#9C27B0', 'integration-settings': '#00FF88'
         };
         return map[type] || '#0078d4';
     }
 
-    // Desktop Icons
     initDesktopIcons() {
         const icons = [
             { id: 'explorer', name: 'File Explorer' },
@@ -92,7 +204,9 @@ class BhekOS {
             { id: 'ai', name: 'BhekAI' },
             { id: 'notepad', name: 'Notepad' },
             { id: 'calculator', name: 'Calculator' },
-            { id: 'paint', name: 'Paint' }
+            { id: 'paint', name: 'Paint' },
+            { id: 'app-store', name: 'App Store' },
+            { id: 'integration-settings', name: 'Integrations' }
         ];
         
         const container = document.getElementById('desktopIcons');
@@ -113,8 +227,8 @@ class BhekOS {
         div.id = `desktop-${ic.id}`;
         
         const savedPos = savedLayout[ic.id];
-        const gridX = 20 + (index % 3) * 100;
-        const gridY = 20 + Math.floor(index / 3) * 100;
+        const gridX = 20 + (index % 4) * 100;
+        const gridY = 20 + Math.floor(index / 4) * 100;
         
         div.style.position = 'absolute';
         div.style.left = (savedPos?.left || gridX) + 'px';
@@ -151,12 +265,22 @@ class BhekOS {
         `;
         
         div.ondblclick = () => {
-            if (this.security.requiresPassword(ic.id)) {
-                this.security.showPasswordPrompt('app', ic.id, () => {
-                    this.wm.spawn(ic.name, ic.id);
-                });
+            if (ic.id === 'browser') {
+                this.integrations.bhekwork?.openInNewTab();
+            } else if (ic.id === 'ai') {
+                this.launchApp(ic.name, ic.id);
+            } else if (ic.id === 'integration-settings') {
+                this.launchApp('Integrations', 'integration-settings');
+            } else if (ic.id === 'app-store') {
+                this.launchApp('App Store', 'app-store');
             } else {
-                this.wm.spawn(ic.name, ic.id);
+                if (this.security.requiresPassword(ic.id)) {
+                    this.security.showPasswordPrompt('app', ic.id, () => {
+                        this.launchApp(ic.name, ic.id);
+                    });
+                } else {
+                    this.launchApp(ic.name, ic.id);
+                }
             }
         };
         
@@ -241,85 +365,150 @@ class BhekOS {
         if (current) current.classList.add('selected');
     }
 
-    // Start Menu
     initStartMenu() {
         const menu = document.getElementById('startMenu');
         const apps = [
-            { name: 'File Explorer', emoji: '📁', type: 'explorer' },
-            { name: 'Terminal', emoji: '💻', type: 'terminal' },
-            { name: 'Web Browser', emoji: '🌐', type: 'browser' },
-            { name: 'Media Player', emoji: '🎵', type: 'media' },
-            { name: 'Settings', emoji: '⚙️', type: 'settings' },
-            { name: 'Game Center', emoji: '🎮', type: 'games' },
-            { name: 'BhekAI', emoji: '🤖', type: 'ai' },
-            { name: 'Notepad', emoji: '📝', type: 'notepad' },
-            { name: 'Calculator', emoji: '🧮', type: 'calculator' },
-            { name: 'Paint', emoji: '🎨', type: 'paint' }
+            { id: 'explorer', name: 'File Explorer', icon: '📁' },
+            { id: 'terminal', name: 'Terminal', icon: '💻' },
+            { id: 'browser', name: 'Web Browser', icon: '🌐' },
+            { id: 'media', name: 'Media Player', icon: '🎵' },
+            { id: 'settings', name: 'Settings', icon: '⚙️' },
+            { id: 'games', name: 'Game Center', icon: '🎮' },
+            { id: 'ai', name: 'BhekAI', icon: '🤖' },
+            { id: 'notepad', name: 'Notepad', icon: '📝' },
+            { id: 'calculator', name: 'Calculator', icon: '🧮' },
+            { id: 'paint', name: 'Paint', icon: '🎨' },
+            { id: 'app-store', name: 'App Store', icon: '📱' },
+            { id: 'integration-settings', name: 'Integrations', icon: '🔌' }
         ];
         
         const savedSettings = BhekStorage.load('iconSettings', {});
+        const thinkConnected = this.integrations.bhekthink?.isConnected;
+        const workConnected = this.integrations.bhekwork?.isConnected;
         
         menu.innerHTML = `
             <div class="start-menu-header">
                 <h2>BhekOS ${this.version}</h2>
-                <p>Professional Edition • Build ${this.build}</p>
+                <p style="display: flex; align-items: center; gap: 10px;">
+                    <span>${apps.length} apps</span>
+                    <span>|</span>
+                    <span class="integration-badge" style="color: #00ff88;">🤖 ${thinkConnected ? 'AI Online' : 'AI'}</span>
+                    <span class="integration-badge" style="color: #f9a84d;">🌐 ${workConnected ? 'Browser Online' : 'Browser'}</span>
+                </p>
             </div>
             <div class="start-menu-grid">
-                ${apps.map(app => {
-                    const settings = savedSettings[app.type] || {};
-                    const emoji = settings.emoji || app.emoji;
-                    const color = settings.color || this.getDefaultColor(app.type);
-                    const bgOpacity = settings.bgOpacity || 20;
-                    
-                    const opacity = Math.round(bgOpacity * 2.55).toString(16).padStart(2, '0');
-                    const bgColor = `${color}${opacity}`;
-                    
-                    return `
-                        <div class="start-menu-item" onclick="os.launchApp('${app.name}', '${app.type}'); os.toggleStart()">
-                            <div class="emoji" style="
-                                font-size: 32px;
-                                width: 48px;
-                                height: 48px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                background: ${bgColor};
-                                border-radius: 10px;
-                                margin-bottom: 8px;
-                            ">${emoji}</div>
-                            <div>${app.name}</div>
-                        </div>
-                    `;
-                }).join('')}
+                ${apps.map(app => `
+                    <div class="start-menu-item" onclick="os.launchApp('${app.name}', '${app.id}'); os.toggleStart()">
+                        <div class="emoji" style="font-size: 32px;">${app.icon}</div>
+                        <div>${app.name}</div>
+                    </div>
+                `).join('')}
             </div>
             <div style="margin-top: auto; padding: 20px; background: rgba(0,0,0,0.2); border-top: 1px solid var(--mica-border);">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <div>
                         <div style="font-weight: 500;">Administrator</div>
                         <div style="font-size: 12px; opacity: 0.8;">BhekOS User</div>
                     </div>
                     <button class="secondary" onclick="os.shutdown()">⏻ Power</button>
                 </div>
+                <div style="display: flex; gap: 8px; justify-content: space-around; font-size: 12px;">
+                    <div onclick="showIntegrationStatus()" style="cursor: pointer;">
+                        <span class="security-indicator ${thinkConnected ? 'security-high' : 'security-low'}"></span>
+                        BhekThink
+                    </div>
+                    <div onclick="showIntegrationStatus()" style="cursor: pointer;">
+                        <span class="security-indicator ${workConnected ? 'security-high' : 'security-low'}"></span>
+                        BhekWork
+                    </div>
+                </div>
             </div>
         `;
     }
 
+    toggleStart() {
+        const menu = document.getElementById('startMenu');
+        this.startMenuVisible = !this.startMenuVisible;
+        menu.style.display = this.startMenuVisible ? 'flex' : 'none';
+    }
+
     launchApp(name, type) {
+        if (type === 'browser') {
+            this.integrations.bhekwork?.openInNewTab();
+            return;
+        }
+        
+        if (type === 'integration-settings') {
+            const pid = this.wm.spawn(name, type);
+            setTimeout(() => {
+                const view = document.getElementById(`view-${pid}`);
+                if (view && IntegrationSettings) {
+                    IntegrationSettings.load(view, this);
+                }
+            }, 100);
+            return;
+        }
+        
+        if (type === 'app-store') {
+            const pid = this.wm.spawn(name, type);
+            setTimeout(() => {
+                const view = document.getElementById(`view-${pid}`);
+                if (view && AppStore) {
+                    AppStore.load(view, this);
+                }
+            }, 100);
+            return;
+        }
+
         if (this.security.requiresPassword(type)) {
             this.security.showPasswordPrompt('app', type, () => {
-                this.wm.spawn(name, type);
+                this.createAppWindow(name, type);
             });
         } else {
-            this.wm.spawn(name, type);
+            this.createAppWindow(name, type);
         }
     }
 
-    toggleStart() {
-        const menu = document.getElementById('startMenu');
-        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    createAppWindow(name, type) {
+        const pid = this.wm.spawn(name, type);
+        setTimeout(() => {
+            const view = document.getElementById(`view-${pid}`);
+            if (view) {
+                switch(type) {
+                    case 'ai':
+                        if (AIChat) AIChat.load(view, this);
+                        break;
+                    case 'explorer':
+                        if (FileExplorer) FileExplorer.load(view, this);
+                        break;
+                    case 'terminal':
+                        if (Terminal) Terminal.load(view, this);
+                        break;
+                    case 'media':
+                        if (MediaPlayer) MediaPlayer.load(view, this);
+                        break;
+                    case 'settings':
+                        if (Settings) Settings.load(view, this);
+                        break;
+                    case 'games':
+                        if (Games) Games.load(view, this);
+                        break;
+                    case 'notepad':
+                        if (Notepad) Notepad.load(view, this);
+                        break;
+                    case 'calculator':
+                        if (Calculator) Calculator.load(view, this);
+                        break;
+                    case 'paint':
+                        if (Paint) Paint.load(view, this);
+                        break;
+                    default:
+                        view.innerHTML = `<h3>${name} app loaded</h3>`;
+                }
+            }
+        }, 100);
     }
 
-    // Taskbar
     addTaskbar(pid, name, type) {
         const bar = document.getElementById('runningApps');
         const btn = document.createElement('div');
@@ -347,26 +536,6 @@ class BhekOS {
         return btn;
     }
 
-    // App Loading
-    loadApp(pid, type) {
-        const view = document.getElementById(`view-${pid}`);
-        if (!view) return;
-        
-        switch(type) {
-            case 'explorer': FileExplorer.load(view, this); break;
-            case 'terminal': Terminal.load(view, this); break;
-            case 'browser': Browser.load(view, this); break;
-            case 'media': MediaPlayer.load(view, this); break;
-            case 'settings': Settings.load(view, this); break;
-            case 'games': Games.load(view, this); break;
-            case 'ai': AIChat.load(view, this); break;
-            case 'notepad': Notepad.load(view, this); break;
-            case 'calculator': Calculator.load(view, this); break;
-            case 'paint': Paint.load(view, this); break;
-        }
-    }
-
-    // Context Menus
     showContextMenu(e) {
         e.preventDefault();
         const menu = document.getElementById('contextMenu');
@@ -377,6 +546,9 @@ class BhekOS {
             <hr style="border: none; border-top: 1px solid var(--mica-border); margin: 4px 0;">
             <div class="context-menu-item" onclick="os.launchApp('Terminal', 'terminal')">💻 Open Terminal</div>
             <div class="context-menu-item" onclick="os.launchApp('Settings', 'settings')">⚙️ Open Settings</div>
+            <div class="context-menu-item" onclick="os.openBrowser()">🌐 Open Browser</div>
+            <div class="context-menu-item" onclick="os.testAllIntegrations()">🔌 Test Integrations</div>
+            <div class="context-menu-item" onclick="showIntegrationStatus()">📊 Integration Status</div>
         `;
         this.showMenuAt(menu, e.clientX, e.clientY);
     }
@@ -414,17 +586,17 @@ class BhekOS {
 
     refreshDesktop() {
         this.initDesktopIcons();
+        this.initStartMenu();
         this.notify('Desktop', 'Desktop refreshed');
     }
 
-    // System Functions
     lockScreen() {
         const lockScreen = document.getElementById('lock-screen');
         lockScreen.innerHTML = `
             <div style="text-align: center;">
                 <div style="font-size: 48px; margin-bottom: 20px;">🔐</div>
                 <h1 style="font-size: 32px; margin-bottom: 10px;">BhekOS Locked</h1>
-                <p style="opacity: 0.8; margin-bottom: 30px;">${BhekHelpers.formatTime()}</p>
+                <p style="opacity: 0.8; margin-bottom: 30px;">${new Date().toLocaleTimeString()}</p>
                 <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; max-width: 300px;">
                     <input type="password" id="lock-password" placeholder="Enter password" 
                            style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: none;">
@@ -519,26 +691,18 @@ class BhekOS {
         }, 200);
     }
 
-    // Utilities
-    notify(title, message) {
-        const notification = document.createElement('div');
-        notification.className = 'notification';
-        notification.innerHTML = `
-            <div style="font-weight: 500; margin-bottom: 4px;">${title}</div>
-            <div style="font-size: 13px; opacity: 0.9;">${message}</div>
-        `;
-        document.getElementById('desktop').appendChild(notification);
-        
-        setTimeout(() => {
-            notification.classList.add('fadeout');
-            setTimeout(() => notification.remove(), 3000);
-        }, 3000);
+    notify(title, message, type = 'info') {
+        if (typeof BhekNotifications !== 'undefined') {
+            BhekNotifications.show({ title, message, type });
+        } else {
+            console.log(`[${type.toUpperCase()}] ${title}: ${message}`);
+        }
     }
 
     startClock() {
         setInterval(() => {
             const clock = document.getElementById('clock');
-            if (clock) clock.textContent = BhekHelpers.formatTime();
+            if (clock) clock.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }, 1000);
     }
 
@@ -548,14 +712,18 @@ class BhekOS {
                 document.getElementById('contextMenu').style.display = 'none';
                 document.getElementById('startMenu').style.display = 'none';
                 document.getElementById('install-instructions').style.display = 'none';
+                document.getElementById('integration-status').style.display = 'none';
             }
         });
 
         document.getElementById('desktop').addEventListener('click', (e) => {
             if (!e.target.closest('.window') && !e.target.closest('.taskbar') && 
-                !e.target.closest('#startMenu') && !e.target.closest('#contextMenu')) {
+                !e.target.closest('#startMenu') && !e.target.closest('#contextMenu') &&
+                !e.target.closest('#integration-status')) {
+                
                 document.getElementById('contextMenu').style.display = 'none';
                 document.getElementById('startMenu').style.display = 'none';
+                document.getElementById('integration-status').style.display = 'none';
                 
                 if (this.selectedDesktopIcon) {
                     const selected = document.getElementById(`desktop-${this.selectedDesktopIcon}`);
@@ -566,7 +734,6 @@ class BhekOS {
         });
     }
 
-    // PWA Setup
     setupPWA() {
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -586,7 +753,7 @@ class BhekOS {
     }
 
     showInstallPrompt() {
-        if (!this.deferredPrompt || BhekHelpers.isMobile()) return;
+        if (!this.deferredPrompt || BhekHelpers?.isMobile?.()) return;
         
         const prompt = document.getElementById('install-prompt');
         prompt.innerHTML = `
@@ -651,4 +818,4 @@ class BhekOS {
         `;
         instructions.style.display = 'block';
     }
-          }
+}
