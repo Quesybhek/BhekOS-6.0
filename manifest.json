@@ -1,0 +1,112 @@
+{
+  "name": "BhekOS 6.0 - Web OS with AI & Browser",
+  "short_name": "BhekOS",
+  "description": "Complete web-based operating system with BhekThink AI and BhekWork browser integrations",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#0078d4",
+  "orientation": "any",
+  "categories": ["productivity", "utilities", "entertainment"],
+  "icons": [
+    {
+      "src": "icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/bhekthink-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/bhekwork-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/desktop.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "platform": "wide",
+      "label": "BhekOS Desktop with Integrations"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "BhekThink AI",
+      "short_name": "AI",
+      "description": "Open AI Assistant",
+      "url": "/?app=ai",
+      "icons": [{ "src": "icons/bhekthink-icon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "BhekWork Browser",
+      "short_name": "Browser",
+      "description": "Open Web Browser",
+      "url": "/?app=browser",
+      "icons": [{ "src": "icons/bhekwork-icon.png", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://quesybhek.github.io/BhekThink-AI-Pro/"
+    },
+    {
+      "platform": "webapp",
+      "url": "https://quesybhek.github.io/BhekWork/"
+    }
+  ],
+  "prefer_related_applications": false,
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr"
+}
