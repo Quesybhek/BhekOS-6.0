@@ -509,6 +509,10 @@ class BhekOS {
         }, 100);
     }
 
+    loadApp(pid, type) {
+        // This is handled in createAppWindow
+    }
+
     addTaskbar(pid, name, type) {
         const bar = document.getElementById('runningApps');
         const btn = document.createElement('div');
@@ -692,9 +696,11 @@ class BhekOS {
     }
 
     notify(title, message, type = 'info') {
+        // Use notification system
         if (typeof BhekNotifications !== 'undefined') {
             BhekNotifications.show({ title, message, type });
         } else {
+            // Fallback
             console.log(`[${type.toUpperCase()}] ${title}: ${message}`);
         }
     }
@@ -734,6 +740,7 @@ class BhekOS {
         });
     }
 
+    // PWA Setup
     setupPWA() {
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -818,4 +825,4 @@ class BhekOS {
         `;
         instructions.style.display = 'block';
     }
-}
+    }
