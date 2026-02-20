@@ -1,0 +1,5 @@
+BhekOS Core → Integration Bridge → External Service (iframe)
+                ↓
+         Event Handlers
+                ↓
+         Storage/Cache
