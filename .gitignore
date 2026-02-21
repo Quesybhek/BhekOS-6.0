@@ -1,0 +1,645 @@
+# ====================
+# BhekOS Git Ignore File
+# ====================
+
+# ====================
+# OS Generated Files
+# ====================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.log
+*.tmp
+*.temp
+*.cache
+*.pid
+*.seed
+*.pid.lock
+desktop.ini
+thumbs.db
+*.swo
+*.swn
+
+# ====================
+# IDE/Editor Files
+# ====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-*
+*.sublime-workspace
+*.sublime-project
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+.idea/datatools.xml
+.idea/dataSources.ids
+.idea/dataSources.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# ====================
+# Dependency Directories
+# ====================
+node_modules/
+jspm_packages/
+bower_components/
+vendor/
+packages/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+
+# ====================
+# Package Manager Files
+# ====================
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+composer.lock
+Gemfile.lock
+poetry.lock
+Pipfile.lock
+Cargo.lock
+
+# ====================
+# Build Output
+# ====================
+/dist
+/build
+/out
+/target
+*.tgz
+*.tar.gz
+*.zip
+*.rar
+*.7z
+*.dll
+*.exe
+*.msi
+*.deb
+*.rpm
+*.dmg
+*.pkg
+*.app
+*.war
+*.jar
+*.ear
+*.class
+
+# ====================
+# Environment & Secrets
+# ====================
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+.env.test
+.env.staging
+.env.example
+*.pem
+*.key
+*.crt
+*.csr
+*.pfx
+*.p12
+secrets/
+config/credentials.yml
+config/master.key
+config/database.yml
+application.yml
+.aws.json
+.gcloud.json
+.azure.json
+*.pem
+*.private
+*.public
+id_rsa
+id_dsa
+*.keystore
+*.jks
+
+# ====================
+# Certificate Files (Generated)
+# ====================
+/certificates/*.key
+/certificates/*.crt
+/certificates/*.pem
+/certificates/*.csr
+/certificates/*.ext
+!/certificates/README.md
+!/certificates/generate-cert.bat
+!/certificates/generate-cert.sh
+!/certificates/server.js
+
+# ====================
+# Test Coverage
+# ====================
+coverage/
+.nyc_output/
+*.lcov
+*.lcov.info
+junit.xml
+test-results/
+test-reports/
+__tests__/__snapshots__/
+__tests__/coverage/
+
+# ====================
+# Logs and Databases
+# ====================
+*.log
+*.sql
+*.sqlite
+*.db
+*.rdb
+*.dump
+dump.rdb
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# ====================
+# Runtime Data
+# ====================
+*.pid
+*.seed
+*.pid.lock
+*.swo
+*.swn
+*.swp
+*.session
+*.bak
+*.backup
+*.orig
+*.old
+tmp/
+temp/
+*.tmp
+*.temp
+
+# ====================
+# Uploads
+# ====================
+/public/uploads
+/uploads
+/files
+/storage
+/public/storage
+/storage/app
+/storage/framework
+/storage/logs
+*.blob
+*.upload
+
+# ====================
+# IDE Project Files
+# ====================
+*.iml
+*.ipr
+*.iws
+.atom/
+.Brackets/
+.settings/
+.project
+.classpath
+.factorypath
+*.launch
+.sonarlint/
+.pydevproject
+*.sublime-project
+*.sublime-workspace
+.idea_modules/
+*.scala_dependencies
+.cache
+.cproject
+.directory
+*.gradle
+build.xml
+.idea/@
+
+# ====================
+# Visual Studio Code
+# ====================
+.history/
+*.vsix
+.vscode-test/
+.vscode/.react
+
+# ====================
+# Windows Specific
+# ====================
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+*.url
+*.pif
+*.scr
+*.vxd
+*.3ds
+*.sld
+*.sldm
+*.sldx
+*.stl
+
+# ====================
+# macOS Specific
+# ====================
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+.DocumentRevisions-V100
+.fseventsd
+.TemporaryItems
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# ====================
+# Linux Specific
+# ====================
+*~
+.fuse_hidden*
+.directory*
+.Trash-*
+.nfs*
+
+# ====================
+# Backup files
+# ====================
+*.bak
+*.gho
+*.ori
+*.orig
+*.tmp
+*.temp
+*.swp
+*.swo
+*.swn
+*.backup
+*.back
+*.old
+*.prev
+*.previous
+*.part
+*.cache
+
+# ====================
+# Documentation
+# ====================
+/site
+/_site
+/.cache
+/.bundle
+/vendor/bundle
+/docs/_build
+docs/_site
+docs/api/
+docs/generated/
+*.pdf
+*.epub
+*.mobi
+*.dvi
+
+# ====================
+# Docker
+# ====================
+*.pid
+docker-compose.override.yml
+.dockerignore
+Dockerfile
+docker-compose.yml
+.docker/
+.docker/data
+.docker/dbdata
+.docker/mysql
+.docker/postgres
+.docker/redis
+.docker/mongodb
+
+# ====================
+# Vagrant
+# ====================
+.vagrant/
+Vagrantfile
+.box
+
+# ====================
+# Python
+# ====================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pythonenv.*
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+bin/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+pip-log.txt
+pip-delete-this-directory.txt
+pytest_cache/
+.coverage
+.tox/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.hypothesis/
+*.cover
+*.mo
+*.pot
+*.po
+*.pyo
+*.pyd
+
+# ====================
+# Node.js / JavaScript
+# ====================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+.npm/
+.yarn-integrity
+.yarn-cache/
+.pnpm-store/
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+.parcel-cache/
+.next/
+.nuxt/
+.cache/
+.vite/
+.vscode/.react
+out/
+build/
+dist/
+coverage/
+.nyc_output/
+.temp/
+.cache/
+.vercel/
+.netlify/
+
+# ====================
+# PWA Specific
+# ====================
+workbox-*.js
+workbox-*.js.map
+workbox-config.js
+.swc/
+*.pwa
+*.appcache
+*.manifest.appcache
+/service-worker.js.map
+/precache-*.js
+/precache-*.js.map
+
+# ====================
+# BhekOS Specific
+# ====================
+/screenshots/*.jpg
+/screenshots/*.png
+/screenshots/*.gif
+!/screenshots/placeholder.jpg
+local-storage-backup.json
+*.localstorage
+*.indexeddb
+*.bhekdata
+*.bhekconfig
+*.bhekbackup
+bhekos-backup-*.zip
+bhekos-export-*.json
+bhekos-history-*.json
+bhekos-data-*.json
+
+# ====================
+# Environment Variables
+# ====================
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+.env.test
+.env.staging
+.env.example
+*.env
+*.env.*
+environment.*
+config.env
+secrets.env
+credentials.env
+api-keys.json
+api-keys.js
+api-keys.ts
+secrets.json
+secrets.js
+secrets.ts
+
+# ====================
+# API Keys & Tokens
+# ====================
+*.key
+*.pem
+*.crt
+*.csr
+*.pfx
+*.p12
+*.jks
+*.keystore
+*.store
+*.truststore
+*.cer
+*.der
+api-keys/
+keys/
+secrets/
+credentials/
+tokens/
+*.token
+*.apikey
+*.secret
+*.private
+*.public
+*.pgp
+*.gpg
+*.asc
+
+# ====================
+# Database Migrations
+# ====================
+*.sqlite3
+*.sqlite
+*.db
+*.db-journal
+*.sql
+*.mysql
+*.postgres
+mongod.conf
+redis.conf
+*.rdb
+*.aof
+*.dump
+*.backup
+*.back
+*.bkp
+
+# ====================
+# Cache Directories
+# ====================
+.cache/
+.cache-loader
+.cache-babel-loader
+.cache-eslint
+.cache-prettier
+.cache-stylelint
+.cache-uglify
+.terser-cache
+.webpack-cache
+.parcel-cache
+.next/cache/
+.nuxt/cache/
+.vuepress/cache/
+.docusaurus/cache/
+.gatsby/cache/
+.gridsome/cache/
+.hexo/cache/
+.hugo/cache/
+.jekyll/cache/
+
+# ====================
+# Temp Directories
+# ====================
+tmp/
+temp/
+.tmp/
+.temp/
+*.tmp
+*.temp
+*.cache
+*.pid
+*.lock
+*.log
+*.trace
+*.prof
+*.stats
+*.metrics
+
+# ====================
+# Editor Temporary Files
+# ====================
+*.swp
+*.swo
+*.swn
+*~
+\#*\#
+.#*
+#*#
+._*
+*.orig
+*.rej
+*.bak
+*.backup
+*.old
+*.prev
+*.previous
+*.part
+*.crdownload
+*.download
+*.tmpdownload
+
+# ====================
+# Exceptions (Files to keep)
+# ====================
+!.gitignore
+!.env.example
+!*.sample
+!*.example
+!*.template
+!*.dist
+!.htaccess
+!.htpasswd
+!.editorconfig
+!.eslintrc
+!.prettierrc
+!.stylelintrc
+!.browserslistrc
+!.nvmrc
+!.node-version
+!.ruby-version
+!.python-version
+!.php-version
+!.go-version
+
+# ====================
+# Keep certificate generation scripts
+# ====================
+!/certificates/generate-cert.bat
+!/certificates/generate-cert.sh
+!/certificates/server.js
+!/certificates/README.md
+
+# ====================
+# Keep placeholder images
+# ====================
+!/screenshots/placeholder.jpg
+!/icons/placeholder.svg
+
+# ====================
+# Documentation exceptions
+# ====================
+!/docs/**/*.md
+!/examples/**/*.js
+!/examples/**/*.json
+!/tests/**/*.js
+!/tests/**/*.html
