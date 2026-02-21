@@ -1,357 +1,80 @@
 {
-  "name": "BhekOS 6.0 - Web OS with AI & Browser",
+  "name": "BhekOS 6.0 - Collaborative Cloud OS",
   "short_name": "BhekOS",
-  "description": "Complete web-based operating system with BhekThink AI assistant and BhekWork browser integrations. Features desktop environment, 12+ apps, 6 games, and PWA support.",
+  "description": "Complete web-based operating system with collaboration features",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#0078d4",
   "orientation": "any",
-  "categories": ["productivity", "utilities", "entertainment", "business"],
-  "lang": "en",
-  "dir": "ltr",
-  
   "icons": [
     {
-      "src": "icons/icon-72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/icon-96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/icon-128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/icon-144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/icon-152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/icon-192.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230078d4' rx='20' ry='20'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='white' font-family='Arial, sans-serif'%3E🖥️%3C/text%3E%3C/svg%3E",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-384.png",
-      "sizes": "384x384",
-      "type": "image/png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230078d4' rx='20' ry='20'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='white' font-family='Arial, sans-serif'%3E🖥️%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/bhekthink-icon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/bhekthink-icon-128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/bhekthink-icon-64.png",
-      "sizes": "64x64",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/bhekwork-icon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/bhekwork-icon-128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/bhekwork-icon-64.png",
-      "sizes": "64x64",
-      "type": "image/png",
-      "purpose": "any"
     }
   ],
-
-  "screenshots": [
-    {
-      "src": "screenshots/desktop.jpg",
-      "sizes": "1280x720",
-      "type": "image/jpeg",
-      "platform": "wide",
-      "label": "BhekOS Desktop with AI and Browser Integrations"
-    },
-    {
-      "src": "screenshots/app-store.jpg",
-      "sizes": "1280x720",
-      "type": "image/jpeg",
-      "platform": "wide",
-      "label": "App Store with Integration Apps"
-    },
-    {
-      "src": "screenshots/ai-chat.jpg",
-      "sizes": "1280x720",
-      "type": "image/jpeg",
-      "platform": "wide",
-      "label": "BhekThink AI Assistant"
-    },
-    {
-      "src": "screenshots/browser.jpg",
-      "sizes": "1280x720",
-      "type": "image/jpeg",
-      "platform": "wide",
-      "label": "BhekWork Browser"
-    }
-  ],
-
+  "categories": ["productivity", "utilities", "communication"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "related_applications": [],
   "shortcuts": [
-    {
-      "name": "BhekThink AI",
-      "short_name": "AI",
-      "description": "Open AI Assistant with language mesh and image generation",
-      "url": "/?app=ai",
-      "icons": [
-        {
-          "src": "icons/bhekthink-icon-128.png",
-          "sizes": "128x128"
-        }
-      ]
-    },
-    {
-      "name": "BhekWork Browser",
-      "short_name": "Browser",
-      "description": "Open Web Browser with multi-engine search",
-      "url": "/?app=browser",
-      "icons": [
-        {
-          "src": "icons/bhekwork-icon-128.png",
-          "sizes": "128x128"
-        }
-      ]
-    },
-    {
-      "name": "App Store",
-      "short_name": "Store",
-      "description": "Discover and install integration-aware apps",
-      "url": "/?app=app-store",
-      "icons": [
-        {
-          "src": "icons/icon-128.png",
-          "sizes": "128x128"
-        }
-      ]
-    },
     {
       "name": "File Explorer",
       "short_name": "Files",
       "description": "Browse and manage files",
-      "url": "/?app=explorer",
+      "url": "/?app=file-explorer",
       "icons": [
         {
-          "src": "icons/icon-128.png",
-          "sizes": "128x128"
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%234CAF50' rx='16' ry='16'/%3E%3Ctext x='48' y='64' font-size='48' text-anchor='middle' fill='white'%3E📁%3C/text%3E%3C/svg%3E",
+          "sizes": "96x96"
         }
       ]
     },
     {
-      "name": "Game Center",
-      "short_name": "Games",
-      "description": "Play 6 classic games",
-      "url": "/?app=games",
+      "name": "Settings",
+      "short_name": "Settings",
+      "description": "System settings",
+      "url": "/?app=settings",
       "icons": [
         {
-          "src": "icons/icon-128.png",
-          "sizes": "128x128"
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%23607D8B' rx='16' ry='16'/%3E%3Ctext x='48' y='64' font-size='48' text-anchor='middle' fill='white'%3E⚙️%3C/text%3E%3C/svg%3E",
+          "sizes": "96x96"
         }
       ]
-    }
-  ],
-
-  "related_applications": [
-    {
-      "platform": "webapp",
-      "url": "https://quesybhek.github.io/BhekThink-AI-Pro/",
-      "id": "bhekthink"
     },
     {
-      "platform": "webapp",
-      "url": "https://quesybhek.github.io/BhekWork/",
-      "id": "bhekwork"
-    }
-  ],
-
-  "prefer_related_applications": false,
-
-  "scope": "/",
-  
-  "features": [
-    "Desktop Environment",
-    "Window Management",
-    "File Explorer",
-    "Terminal",
-    "Web Browser",
-    "Media Player",
-    "Settings",
-    "Game Center",
-    "AI Assistant",
-    "Notepad",
-    "Calculator",
-    "Paint",
-    "App Store",
-    "Integrations Hub"
-  ],
-
-  "permissions": {
-    "microphone": {
-      "description": "Required for voice search and AI voice input",
-      "required": false
-    },
-    "notifications": {
-      "description": "Required for system notifications",
-      "required": false
-    }
-  },
-
-  "display_override": [
-    "window-controls-overlay",
-    "standalone",
-    "browser"
-  ],
-
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
-
-  "launch_handler": {
-    "client_mode": ["focus-existing", "navigate-existing"]
-  },
-
-  "protocol_handlers": [
-    {
-      "protocol": "web+bhekos",
-      "url": "/?command=%s"
-    }
-  ],
-
-  "handle_links": "preferred",
-  
-  "prefer_related_applications": false,
-
-  "iarc_rating_id": "e12b6b9c-8b5c-4e5f-8b3c-9a5f7d2e8c6b",
-
-  "categories": ["productivity", "utilities", "entertainment", "business"],
-
-  "screenshots": [
-    {
-      "src": "screenshots/desktop.jpg",
-      "sizes": "1280x720",
-      "type": "image/jpeg",
-      "platform": "wide",
-      "label": "BhekOS Desktop"
-    }
-  ],
-
-  "share_target": {
-    "action": "/share",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url",
-      "files": [
+      "name": "Chat",
+      "short_name": "Chat",
+      "description": "Team collaboration",
+      "url": "/?app=chat",
+      "icons": [
         {
-          "name": "file",
-          "accept": ["image/*", "text/*"]
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%232196F3' rx='16' ry='16'/%3E%3Ctext x='48' y='64' font-size='48' text-anchor='middle' fill='white'%3E💬%3C/text%3E%3C/svg%3E",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "short_name": "Users",
+      "description": "User management",
+      "url": "/?app=users",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%239C27B0' rx='16' ry='16'/%3E%3Ctext x='48' y='64' font-size='48' text-anchor='middle' fill='white'%3E👥%3C/text%3E%3C/svg%3E",
+          "sizes": "96x96"
         }
       ]
     }
-  },
-
-  "url_handlers": [
-    {
-      "origin": "https://quesybhek.github.io"
-    }
-  ],
-
-  "scope_extensions": [
-    {
-      "origin": "https://*.bhekos.com"
-    }
-  ],
-
-  "note_taking": {
-    "new_note_url": "/?app=notepad"
-  },
-
-  "file_handlers": {
-    "text": {
-      "action": "/?app=notepad",
-      "accept": {
-        "text/plain": [".txt", ".md"],
-        "text/javascript": [".js"],
-        "text/html": [".html"],
-        "text/css": [".css"],
-        "application/json": [".json"]
-      }
-    },
-    "image": {
-      "action": "/?app=paint",
-      "accept": {
-        "image/png": [".png"],
-        "image/jpeg": [".jpg", ".jpeg"],
-        "image/gif": [".gif"],
-        "image/svg+xml": [".svg"]
-      }
-    }
-  },
-
-  "background_color": "#000000",
-  "theme_color": "#0078d4",
-  "description": "Complete web-based operating system with BhekThink AI assistant and BhekWork browser integrations. Features desktop environment, 12+ apps, 6 games, and PWA support.",
-  "dir": "ltr",
-  "display": "standalone",
-  "name": "BhekOS 6.0 - Web OS with AI & Browser",
-  "orientation": "any",
-  "prefer_related_applications": false,
-  "related_applications": [
-    {
-      "platform": "webapp",
-      "url": "https://quesybhek.github.io/BhekThink-AI-Pro/"
-    },
-    {
-      "platform": "webapp",
-      "url": "https://quesybhek.github.io/BhekWork/"
-    }
-  ],
-  "scope": "/",
-  "short_name": "BhekOS",
-  "start_url": "/",
-  "theme_color": "#0078d4",
-  "background_color": "#000000"
-    }
+  ]
+}
