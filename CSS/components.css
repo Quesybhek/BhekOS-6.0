@@ -473,3 +473,129 @@ input:focus, select:focus, textarea:focus {
     color: black;
     box-shadow: 0 0 30px #00ff88;
 }
+/* ==================== ANIMATED START BUTTON ==================== */
+.start-button {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.start-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+.start-button:hover::before {
+    width: 60px;
+    height: 60px;
+}
+
+.start-button:active {
+    transform: scale(0.95);
+}
+
+/* Windows 11 Style */
+.start-button.windows {
+    background: linear-gradient(135deg, #0078d4, #005a9e);
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0,120,212,0.3);
+}
+
+.start-button.windows:hover {
+    background: linear-gradient(135deg, #0086e6, #0066b3);
+    box-shadow: 0 4px 12px rgba(0,120,212,0.5);
+}
+
+/* Apple Style */
+.start-button.apple {
+    background: linear-gradient(135deg, #5e5e5e, #3a3a3a);
+    color: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.start-button.apple:hover {
+    background: linear-gradient(135deg, #6e6e6e, #4a4a4a);
+    transform: scale(1.1);
+}
+
+/* BhekOS Style */
+.start-button.bhekos {
+    background: linear-gradient(135deg, #00ff88, #00cc66);
+    color: black;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,255,136,0.5);
+    animation: pulse 2s infinite;
+}
+
+.start-button.bhekos:hover {
+    background: linear-gradient(135deg, #33ff99, #00e673);
+    box-shadow: 0 0 20px rgba(0,255,136,0.8);
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 10px rgba(0,255,136,0.5); }
+    50% { box-shadow: 0 0 20px rgba(0,255,136,0.8); }
+    100% { box-shadow: 0 0 10px rgba(0,255,136,0.5); }
+}
+
+/* Minimal Style */
+.start-button.minimal {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.start-button.minimal:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: var(--accent);
+}
+
+/* Neon Style */
+.start-button.neon {
+    background: transparent;
+    color: #00ff88;
+    border: 2px solid #00ff88;
+    box-shadow: 0 0 15px #00ff88, inset 0 0 10px #00ff88;
+    text-shadow: 0 0 8px #00ff88;
+}
+
+.start-button.neon:hover {
+    background: #00ff88;
+    color: black;
+    box-shadow: 0 0 30px #00ff88;
+}
+
+/* Glowing Dot */
+.start-button.dot {
+    background: var(--accent);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    margin: 8px;
+    box-shadow: 0 0 20px var(--accent);
+    animation: glow 1.5s infinite;
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 5px var(--accent); }
+    50% { box-shadow: 0 0 20px var(--accent); }
+    100% { box-shadow: 0 0 5px var(--accent); }
+}
