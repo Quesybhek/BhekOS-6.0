@@ -1,0 +1,25 @@
+{
+  "name": "bhekos-scripts",
+  "version": "6.0.0",
+  "description": "Build and deployment scripts for BhekOS",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "build:prod": "node scripts/build.js --prod",
+    "deploy": "node scripts/deploy.js",
+    "deploy:github": "node scripts/deploy.js github --prod",
+    "deploy:netlify": "node scripts/deploy.js netlify --prod",
+    "deploy:vercel": "node scripts/deploy.js vercel --prod",
+    "deploy:firebase": "node scripts/deploy.js firebase --prod",
+    "validate": "node scripts/validate.js",
+    "validate:fix": "node scripts/validate.js --fix",
+    "preview": "http-server dist -p 3000 -o"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "gh-pages": "^6.1.0",
+    "eslint": "^8.56.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
