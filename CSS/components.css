@@ -365,3 +365,111 @@ input:focus, select:focus, textarea:focus {
 .security-high { background: #4CAF50; }
 .security-medium { background: #FF9800; }
 .security-low { background: #FF5252; }
+/* ==================== START BUTTON STYLES ==================== */
+.start-button {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #00ff88, #00cc66);
+    color: black;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(0,255,136,0.3);
+}
+
+.start-button:hover {
+    background: linear-gradient(135deg, #33ff99, #00e673);
+    box-shadow: 0 0 20px rgba(0,255,136,0.6);
+    transform: scale(1.05);
+}
+
+.start-button:active {
+    transform: scale(0.95);
+}
+
+.start-button.active {
+    background: linear-gradient(135deg, #00cc66, #00994d);
+    box-shadow: 0 0 15px rgba(0,255,136,0.8);
+}
+
+.start-icon {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+/* Optional: Pulse animation when start menu is open */
+.start-button.pulse {
+    animation: startPulse 2s infinite;
+}
+
+@keyframes startPulse {
+    0% { box-shadow: 0 0 10px rgba(0,255,136,0.3); }
+    50% { box-shadow: 0 0 20px rgba(0,255,136,0.8); }
+    100% { box-shadow: 0 0 10px rgba(0,255,136,0.3); }
+}
+
+/* Alternative styles you can choose from */
+
+/* Windows 11 Style */
+.start-button.windows {
+    background: linear-gradient(135deg, #0078d4, #005a9e);
+    color: white;
+}
+
+.start-button.windows .start-icon {
+    font-size: 18px;
+    content: "⊞";
+}
+
+/* Apple Style */
+.start-button.apple {
+    background: linear-gradient(135deg, #5e5e5e, #3a3a3a);
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    margin: 2px;
+}
+
+.start-button.apple .start-icon {
+    font-size: 22px;
+    content: "";
+}
+
+/* Minimal Style */
+.start-button.minimal {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.start-button.minimal:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: #00ff88;
+}
+
+.start-button.minimal .start-icon {
+    font-size: 18px;
+}
+
+/* Neon Style */
+.start-button.neon {
+    background: transparent;
+    color: #00ff88;
+    border: 2px solid #00ff88;
+    box-shadow: 0 0 15px #00ff88, inset 0 0 10px #00ff88;
+    text-shadow: 0 0 8px #00ff88;
+}
+
+.start-button.neon:hover {
+    background: #00ff88;
+    color: black;
+    box-shadow: 0 0 30px #00ff88;
+}
