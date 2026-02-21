@@ -14,6 +14,7 @@
     background: rgba(255,255,255,0.1); 
 }
 
+/* ==================== GAME CANVAS ==================== */
 .game-canvas { 
     background: #111; 
     border-radius: 8px; 
@@ -22,7 +23,93 @@
     border: 2px solid var(--mica-border); 
 }
 
+/* ==================== SNAKE GAME ==================== */
+.snake-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.snake-stats {
+    display: flex;
+    gap: 20px;
+    background: rgba(255,255,255,0.1);
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.snake-score, .snake-high-score {
+    text-align: center;
+}
+
+.snake-score div:first-child, .snake-high-score div:first-child {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.snake-score div:last-child, .snake-high-score div:last-child {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#snake-canvas {
+    background: #111;
+    border-radius: 8px;
+    border: 2px solid var(--mica-border);
+}
+
+.snake-controls {
+    display: flex;
+    gap: 10px;
+}
+
+/* ==================== FLAPPY BIRD ==================== */
+.flappy-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.flappy-stats {
+    display: flex;
+    gap: 20px;
+    background: rgba(255,255,255,0.1);
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+#flappy-canvas {
+    background: #87CEEB;
+    border-radius: 8px;
+    border: 2px solid var(--mica-border);
+}
+
 /* ==================== MEMORY GAME ==================== */
+.memory-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.memory-stats {
+    display: flex;
+    gap: 20px;
+    background: rgba(255,255,255,0.1);
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.memory-grid { 
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 10px; 
+    max-width: 420px; 
+    margin: 0 auto; 
+}
+
 .memory-card { 
     width: 80px; 
     height: 100px; 
@@ -48,6 +135,21 @@
 }
 
 /* ==================== 2048 GAME ==================== */
+.game2048-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.game2048-stats {
+    display: flex;
+    gap: 20px;
+    background: rgba(255,255,255,0.1);
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
 .game-2048-grid { 
     display: grid; 
     grid-template-columns: repeat(4, 1fr); 
@@ -71,13 +173,41 @@
     color: white; 
 }
 
+/* Tile colors */
+.tile-2 { background: #eee4da; color: #776e65; }
+.tile-4 { background: #ede0c8; color: #776e65; }
+.tile-8 { background: #f2b179; color: white; }
+.tile-16 { background: #f59563; color: white; }
+.tile-32 { background: #f67c5f; color: white; }
+.tile-64 { background: #f65e3b; color: white; }
+.tile-128 { background: #edcf72; color: white; font-size: 20px; }
+.tile-256 { background: #edcc61; color: white; font-size: 20px; }
+.tile-512 { background: #edc850; color: white; font-size: 20px; }
+.tile-1024 { background: #edc53f; color: white; font-size: 18px; }
+.tile-2048 { background: #edc22e; color: white; font-size: 18px; }
+
 /* ==================== PUZZLE GAME ==================== */
-.puzzle-container { 
+.puzzle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.puzzle-stats {
+    display: flex;
+    gap: 20px;
+    background: rgba(255,255,255,0.1);
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.puzzle-grid { 
     display: grid; 
     grid-template-columns: repeat(3, 1fr); 
     gap: 4px; 
-    margin: 20px auto; 
     max-width: 300px; 
+    margin: 0 auto; 
 }
 
 .puzzle-piece { 
@@ -99,6 +229,21 @@
 }
 
 /* ==================== TIC TAC TOE ==================== */
+.tictactoe-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.tictactoe-stats {
+    display: flex;
+    gap: 20px;
+    background: rgba(255,255,255,0.1);
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
 .tic-tac-toe-grid { 
     display: grid; 
     grid-template-columns: repeat(3, 1fr); 
@@ -106,8 +251,8 @@
     background: rgba(255,255,255,0.1); 
     padding: 4px; 
     border-radius: 8px; 
-    margin: 20px auto; 
     max-width: 300px; 
+    margin: 0 auto; 
 }
 
 .ttt-cell { 
@@ -126,3 +271,73 @@
 .ttt-cell:hover { 
     background: rgba(255,255,255,0.1); 
 }
+
+.ttt-cell.x {
+    color: #00ff88;
+}
+
+.ttt-cell.o {
+    color: #f9a84d;
+}
+
+#ttt-status {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* ==================== GAME CONTROLS ==================== */
+.game-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.game-controls button {
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+/* ==================== GAME MESSAGES ==================== */
+.game-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.9);
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid var(--accent);
+    text-align: center;
+    z-index: 100;
+}
+
+.game-message h3 {
+    margin-bottom: 10px;
+    color: var(--accent);
+}
+
+.game-message p {
+    margin-bottom: 15px;
+}
+
+/* ==================== GAME ANIMATIONS ==================== */
+@keyframes pop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.game-pop {
+    animation: pop 0.3s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.game-shake {
+    animation: shake 0.3s ease;
+    }
