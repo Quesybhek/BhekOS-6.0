@@ -532,3 +532,57 @@ const Settings = {
         }
     }
 };
+// Add to js/apps/settings.js
+setStartButtonStyle(style) {
+    const startBtn = document.getElementById('startButton');
+    if (!startBtn) return;
+    
+    // Remove all style classes
+    startBtn.className = 'start-button';
+    
+    // Add selected style
+    if (style !== 'default') {
+        startBtn.classList.add(style);
+    }
+    
+    // Update icon based on style
+    const icon = startBtn.querySelector('.start-icon');
+    if (icon) {
+        switch(style) {
+            case 'windows':
+                icon.textContent = '⊞';
+                break;
+            case 'apple':
+                icon.textContent = '';
+                break;
+            case 'minimal':
+                icon.textContent = '☰';
+                break;
+            case 'neon':
+                icon.textContent = '⚡';
+                break;
+            default:
+                icon.textContent = 'B';
+        }
+    }
+    
+    BhekStorage.save('startButtonStyle', style);
+    this.os.notify('Start Button', `Style changed to ${style}`);
+}
+
+// Add to settings UI
+`
+<div class="apple-settings-item">
+    <div>
+        <div style="font-weight: 500;">Start Button Style</div>
+        <div style="font-size: 12px; opacity: 0.7;">Customize your start button</div>
+    </div>
+    <select onchange="Settings.setStartButtonStyle(this.value)">
+        <option value="default">BhekOS Default (B)</option>
+        <option value="windows">Windows Style (⊞)</option>
+        <option value="apple">Apple Style ()</option>
+        <option value="minimal">Minimal (☰)</option>
+        <option value="neon">Neon (⚡)</option>
+    </select>
+</div>
+`
