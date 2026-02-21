@@ -3,410 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="BhekOS 6.0 - Modern web-based operating system with BhekThink AI and BhekWork Browser integrations">
+    <meta name="description" content="BhekOS 6.0 - Complete web-based operating system with collaboration">
     <meta name="theme-color" content="#0078d4">
-    <title>BhekOS 6.0 | Bhek Network Global</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>BhekOS 6.0 - Collaborative Cloud OS</title>
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="icons/icon-192.png">
+    <!-- Emoji Favicon (no external files needed) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230078d4' rx='20' ry='20'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='white'%3E🖥️%3C/text%3E%3C/svg%3E">
     
-    <!-- Fonts and Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/tokyo-night-dark.min.css">
+    <!-- Apple touch icon (fallback) -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230078d4' rx='20' ry='20'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='white'%3E🖥️%3C/text%3E%3C/svg%3E">
     
-    <!-- CSS Files -->
+    <!-- Core Styles -->
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/games.css">
-    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/animations.css">
     
-    <style>
-        /* Additional safety styles */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-        }
-        
-        #desktop {
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), 
-                        url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=2564&q=80') center/cover fixed;
-            background-size: cover !important;
-            overflow: hidden;
-        }
-        
-        .integration-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: 600;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        
-        .bhekthink-active {
-            border-left: 3px solid #00ff88;
-        }
-        
-        .bhekwork-active {
-            border-left: 3px solid #f9a84d;
-        }
-        
-        @keyframes neural-pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-        
-        .neural-indicator {
-            animation: neural-pulse 2s infinite;
-        }
-    </style>
+    <!-- Component Styles -->
+    <link rel="stylesheet" href="css/components/windows.css">
+    <link rel="stylesheet" href="css/components/taskbar.css">
+    <link rel="stylesheet" href="css/components/startmenu.css">
+    <link rel="stylesheet" href="css/components/desktop-switcher.css">
+    <link rel="stylesheet" href="css/components/shortcuts.css">
+    <link rel="stylesheet" href="css/components/collaboration.css">
+    
+    <!-- Themes -->
+    <link rel="stylesheet" href="css/themes/dark.css">
+    <link rel="stylesheet" href="css/themes/light.css">
 </head>
 <body>
     <!-- Desktop Container -->
-    <div id="desktop" oncontextmenu="os.showContextMenu(event)">
-        <!-- Desktop Icons Container -->
+    <div id="desktop">
+        <!-- Windows Container -->
+        <div id="windows-container"></div>
+        
+        <!-- Desktop Icons -->
         <div class="desktop-icons" id="desktopIcons"></div>
         
         <!-- Taskbar -->
-        <div class="taskbar">
-            <!-- UPDATED: Removed green circle, now using BhekOS logo -->
-            <div class="start-button" id="startButton" onclick="os.toggleStart()">
-                <span class="start-icon">B</span>
-            </div>
-            
-            <div class="taskbar-center" id="runningApps"></div>
-            <div class="taskbar-right">
-                <div class="system-tray">
-                    <!-- Integration Indicators -->
-                    <div class="icon integration-badge" title="BhekThink AI" id="think-indicator">
-                        <span>🤖</span>
-                        <span class="security-indicator security-medium" id="think-status"></span>
-                    </div>
-                    <div class="icon integration-badge" title="BhekWork Browser" id="work-indicator">
-                        <span>🌐</span>
-                        <span class="security-indicator security-medium" id="work-status"></span>
-                    </div>
-                    <div class="icon" title="Wi-Fi">📶</div>
-                    <div class="icon" title="Volume">🔊</div>
-                    <div class="icon" title="Battery">🔋</div>
-                    <div id="clock" class="clock">00:00</div>
-                </div>
-            </div>
-        </div>
+        <div class="taskbar" id="taskbar"></div>
         
         <!-- Start Menu -->
-        <div id="startMenu" style="display: none;"></div>
+        <div id="startMenu" class="start-menu"></div>
         
         <!-- Context Menu -->
-        <div id="contextMenu" class="context-menu" style="display: none;"></div>
+        <div id="contextMenu" class="context-menu"></div>
         
-        <!-- Shutdown Screen -->
+        <!-- Notifications Container -->
+        <div id="notifications" class="notifications"></div>
+        
+        <!-- System Screens -->
         <div id="shutdown-screen" style="display: none;"></div>
-        
-        <!-- Lock Screen -->
         <div id="lock-screen" style="display: none;"></div>
+        <div id="login-screen" style="display: none;"></div>
         
         <!-- Install Prompt -->
         <div id="install-prompt" style="display: none;"></div>
         
-        <!-- Install Instructions -->
-        <div id="install-instructions" class="install-instructions" style="display: none;"></div>
-        
-        <!-- Integration Status Overlay -->
-        <div id="integration-status" style="display: none;">
-            <h4 style="color: #00ff88; margin-bottom: 12px;">🔌 Integration Status</h4>
-            <div id="think-status-details"></div>
-            <div id="work-status-details"></div>
-            <button onclick="document.getElementById('integration-status').style.display='none'" style="margin-top: 12px; width: 100%;">Close</button>
-        </div>
+        <!-- Collaboration UI -->
+        <div id="user-presence" class="user-presence"></div>
+        <div id="activity-feed" class="activity-feed" style="display: none;"></div>
+        <div id="share-dialog" class="share-dialog" style="display: none;"></div>
     </div>
 
-    <!-- External Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-    <script src="https://js.puter.com/v2/"></script>
-
-    <!-- Utility Files -->
-    <script src="js/utils/storage.js"></script>
-    <script src="js/utils/notifications.js"></script>
+    <!-- ==================== UTILITIES ==================== -->
     <script src="js/utils/helpers.js"></script>
-    <script src="js/utils/animations.js"></script>
-    <script src="js/utils/drag-drop.js"></script>
-    
-    <!-- Core Files -->
+    <script src="js/utils/storage.js"></script>
+    <script src="js/utils/event-bus.js"></script>
+    <script src="js/utils/logger.js"></script>
+    <script src="js/utils/crypto.js"></script>
+    <script src="js/utils/network.js"></script>
+    <script src="js/utils/worker.js"></script>
+
+    <!-- ==================== CORE MODULES - PHASE 1 ==================== -->
+    <script src="js/core/file-system.js"></script>
+    <script src="js/core/settings-manager.js"></script>
+    <script src="js/core/theme-manager.js"></script>
     <script src="js/core/security.js"></script>
+    <script src="js/core/app-store.js"></script>
     <script src="js/core/window-manager.js"></script>
-    <script src="js/core/app-manager.js"></script>
-    
-    <!-- Games -->
-    <script src="js/games/snake.js"></script>
-    <script src="js/games/flappy-bird.js"></script>
-    <script src="js/games/memory.js"></script>
-    <script src="js/games/game-2048.js"></script>
-    <script src="js/games/puzzle.js"></script>
-    <script src="js/games/tic-tac-toe.js"></script>
-    
-    <!-- Apps -->
-    <script src="js/apps/file-explorer.js"></script>
-    <script src="js/apps/terminal.js"></script>
-    <script src="js/apps/browser.js"></script>
-    <script src="js/apps/media-player.js"></script>
-    <script src="js/apps/settings.js"></script>
-    <script src="js/apps/games.js"></script>
-    <script src="js/apps/ai-chat.js"></script>
-    <script src="js/apps/notepad.js"></script>
-    <script src="js/apps/calculator.js"></script>
-    <script src="js/apps/paint.js"></script>
-    <script src="js/apps/app-store.js"></script>
-    <script src="js/apps/integration-settings.js"></script>
-    
-    <!-- Integrations -->
-    <script src="js/integrations/bhekthink-bridge.js"></script>
-    <script src="js/integrations/bhekwork-bridge.js"></script>
-    
-    <!-- Main OS Core -->
-    <script src="js/core/os.js"></script>
-    
-    <!-- Initialization Script -->
-    <script>
-        // Global error handler
-        window.onerror = function(msg, url, lineNo, columnNo, error) {
-            console.error('🔥 BhekOS Error:', {msg, url, lineNo, columnNo, error});
-            
-            // Show error on screen for debugging
-            const desktop = document.getElementById('desktop');
-            if (desktop && !document.getElementById('error-display')) {
-                const errorDiv = document.createElement('div');
-                errorDiv.id = 'error-display';
-                errorDiv.style.cssText = `
-                    position: fixed;
-                    top: 20px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: rgba(255,0,0,0.9);
-                    color: white;
-                    padding: 15px 20px;
-                    border-radius: 8px;
-                    z-index: 999999;
-                    font-family: monospace;
-                    max-width: 80%;
-                    word-wrap: break-word;
-                    border: 2px solid white;
-                `;
-                errorDiv.innerHTML = `<strong>⚠️ Error:</strong> ${msg}<br><small>${url}:${lineNo}</small>`;
-                desktop.appendChild(errorDiv);
-                setTimeout(() => errorDiv.remove(), 5000);
-            }
-            return false;
-        };
 
-        // Check if all required files loaded
-        function checkDependencies() {
-            console.log('🔍 Checking dependencies...');
-            const deps = {
-                'Storage': typeof BhekStorage !== 'undefined',
-                'Notifications': typeof BhekNotifications !== 'undefined',
-                'Helpers': typeof BhekHelpers !== 'undefined',
-                'Security': typeof BhekSecurity !== 'undefined',
-                'WindowManager': typeof WindowManager !== 'undefined',
-                'AppManager': typeof AppManager !== 'undefined',
-                'BhekThink': typeof BhekThinkBridge !== 'undefined',
-                'BhekWork': typeof BhekWorkBridge !== 'undefined'
-            };
-            
-            let allLoaded = true;
-            for (const [name, loaded] of Object.entries(deps)) {
-                console.log(`  - ${name}: ${loaded ? '✅' : '❌'}`);
-                if (!loaded) allLoaded = false;
-            }
-            
-            return allLoaded;
-        }
+    <!-- ==================== CORE MODULES - PHASE 2 ==================== -->
+    <script src="js/core/display-manager.js"></script>
+    <script src="js/core/system-monitor.js"></script>
+    <script src="js/core/file-search.js"></script>
+    <script src="js/core/shortcuts.js"></script>
 
-        // Initialize when page loads
-        window.addEventListener('load', function() {
-            console.log('🚀 Page loaded, initializing BhekOS...');
-            console.log('📁 Loading from:', window.location.href);
-            
-            // Check dependencies
-            const depsLoaded = checkDependencies();
-            
-            if (!depsLoaded) {
-                console.warn('⚠️ Some dependencies failed to load');
-            }
-            
-            try {
-                // Create OS instance
-                window.os = new BhekOS();
-                console.log('✅ BhekOS initialized successfully!');
-                
-                // Update integration indicators periodically
-                setInterval(() => {
-                    if (os && os.updateIntegrationIndicators) {
-                        os.updateIntegrationIndicators();
-                    }
-                }, 2000);
-                
-                // Show welcome notification
-                setTimeout(() => {
-                    if (os.notify) {
-                        os.notify('BhekOS 6.0', 'System initialized and ready', 'success');
-                        
-                        // Show integration status
-                        setTimeout(() => {
-                            const thinkConnected = os.integrations?.bhekthink?.isConnected ? '✅' : '⚠️';
-                            const workConnected = os.integrations?.bhekwork?.isConnected ? '✅' : '⚠️';
-                            os.notify('Integrations', `BhekThink ${thinkConnected} | BhekWork ${workConnected}`, 'info');
-                        }, 1500);
-                    }
-                }, 1000);
-                
-            } catch (error) {
-                console.error('❌ Failed to initialize BhekOS:', error);
-                
-                // Show error on screen
-                const desktop = document.getElementById('desktop');
-                if (desktop) {
-                    desktop.innerHTML += `
-                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-                             background: rgba(0,0,0,0.95); color: #ff5252; padding: 30px; border-radius: 12px; 
-                             border: 2px solid #ff5252; z-index: 99999; max-width: 500px; text-align: center;
-                             box-shadow: 0 0 30px rgba(255,82,82,0.3);">
-                            <div style="font-size: 48px; margin-bottom: 20px;">💥</div>
-                            <h2 style="margin-bottom: 15px; color: #ff5252;">Initialization Failed</h2>
-                            <p style="margin-bottom: 20px; color: white;">${error.message}</p>
-                            <p style="font-size: 12px; opacity: 0.7; margin-bottom: 20px;">Check console (F12) for details</p>
-                            <button onclick="location.reload()" style="background: #ff5252; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Retry</button>
-                        </div>
-                    `;
-                }
-            }
-        });
+    <!-- ==================== CORE MODULES - PHASE 3 ==================== -->
+    <script src="js/core/user-manager.js"></script>
+    <script src="js/core/cloud-sync.js"></script>
+    <script src="js/core/collaboration.js"></script>
+    <script src="js/core/chat-system.js"></script>
+    <script src="js/core/backup-manager.js"></script>
 
-        // Show integration status
-        window.showIntegrationStatus = function() {
-            if (!window.os) {
-                alert('OS not initialized yet');
-                return;
-            }
-            
-            const thinkStatus = os.integrations?.bhekthink?.getStatus?.() || { connected: false, fallback: true };
-            const workStatus = os.integrations?.bhekwork?.getStatus?.() || { connected: false, fallback: true };
-            
-            const thinkDetails = document.getElementById('think-status-details');
-            const workDetails = document.getElementById('work-status-details');
-            
-            if (thinkDetails) {
-                thinkDetails.innerHTML = `
-                    <div style="margin-bottom: 10px; padding: 8px; background: rgba(0,255,136,0.1); border-radius: 6px;">
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
-                            <span style="font-size: 20px;">🤖</span>
-                            <span style="font-weight: bold;">BhekThink AI</span>
-                            <span class="security-indicator ${thinkStatus.connected ? 'security-high' : 'security-low'}"></span>
-                        </div>
-                        <div style="font-size: 12px;">
-                            <div>Status: ${thinkStatus.connected ? 'Connected' : 'Disconnected'}</div>
-                            <div>Mode: ${thinkStatus.fallback ? 'Fallback' : 'Live'}</div>
-                            <div>User: ${thinkStatus.user || 'Anonymous'}</div>
-                            <div>History: ${thinkStatus.historyCount || 0}</div>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            if (workDetails) {
-                workDetails.innerHTML = `
-                    <div style="padding: 8px; background: rgba(249,168,77,0.1); border-radius: 6px;">
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
-                            <span style="font-size: 20px;">🌐</span>
-                            <span style="font-weight: bold;">BhekWork Browser</span>
-                            <span class="security-indicator ${workStatus.connected ? 'security-high' : 'security-low'}"></span>
-                        </div>
-                        <div style="font-size: 12px;">
-                            <div>Status: ${workStatus.connected ? 'Connected' : 'Disconnected'}</div>
-                            <div>Mode: ${workStatus.fallback ? 'Fallback' : 'Live'}</div>
-                            <div>Engine: ${workStatus.defaultEngine || 'google'}</div>
-                            <div>History: ${workStatus.historyCount || 0}</div>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            document.getElementById('integration-status').style.display = 'block';
-        };
+    <!-- ==================== UI COMPONENTS - PHASE 1 ==================== -->
+    <script src="js/components/taskbar.js"></script>
+    <script src="js/components/start-menu.js"></script>
+    <script src="js/components/desktop-icons.js"></script>
+    <script src="js/components/notification.js"></script>
+    <script src="js/components/lock-screen.js"></script>
+    <script src="js/components/login-screen.js"></script>
+    <script src="js/components/password-prompt.js"></script>
 
-        // Test all integrations
-        window.testIntegrations = async function() {
-            if (!window.os) {
-                alert('OS not initialized');
-                return;
-            }
-            
-            const results = await os.testAllIntegrations();
-            console.log('Integration test results:', results);
-            
-            let message = '';
-            if (results.bhekthink?.success) message += '✅ BhekThink OK\n';
-            else message += '❌ BhekThink Failed\n';
-            
-            if (results.bhekwork?.success) message += '✅ BhekWork OK\n';
-            else message += '❌ BhekWork Failed\n';
-            
-            alert('Integration Test Results:\n\n' + message);
-        };
+    <!-- ==================== UI COMPONENTS - PHASE 2 ==================== -->
+    <script src="js/components/search-overlay.js"></script>
 
-        // Close menus on ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                document.getElementById('contextMenu').style.display = 'none';
-                document.getElementById('startMenu').style.display = 'none';
-                document.getElementById('install-instructions').style.display = 'none';
-                document.getElementById('integration-status').style.display = 'none';
-            }
-        });
+    <!-- ==================== UI COMPONENTS - PHASE 3 ==================== -->
+    <script src="js/components/user-switcher.js"></script>
+    <script src="js/components/activity-feed.js"></script>
+    <script src="js/components/file-share-dialog.js"></script>
 
-        // Click outside to close menus
-        document.getElementById('desktop').addEventListener('click', function(e) {
-            if (!e.target.closest('.window') && !e.target.closest('.taskbar') && 
-                !e.target.closest('#startMenu') && !e.target.closest('#contextMenu') &&
-                !e.target.closest('#integration-status')) {
-                
-                document.getElementById('contextMenu').style.display = 'none';
-                document.getElementById('startMenu').style.display = 'none';
-                document.getElementById('integration-status').style.display = 'none';
-                
-                if (window.os && os.selectedDesktopIcon) {
-                    const selected = document.getElementById(`desktop-${os.selectedDesktopIcon}`);
-                    if (selected) selected.classList.remove('selected');
-                    os.selectedDesktopIcon = null;
-                }
-            }
-        });
+    <!-- ==================== APPLICATIONS - PHASE 1 ==================== -->
+    <script src="js/apps/file-explorer/index.js"></script>
+    <script src="js/apps/settings/index.js"></script>
+    <script src="js/apps/app-store/index.js"></script>
 
-        // Update clock
-        setInterval(function() {
-            const clock = document.getElementById('clock');
-            if (clock) {
-                clock.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            }
-        }, 1000);
+    <!-- ==================== APPLICATIONS - PHASE 2 ==================== -->
+    <script src="js/apps/task-manager/index.js"></script>
 
-        // Log when all scripts are loaded
-        console.log('📦 All scripts loaded, waiting for initialization...');
-    </script>
+    <!-- ==================== APPLICATIONS - PHASE 3 ==================== -->
+    <script src="js/apps/users/index.js"></script>
+    <script src="js/apps/chat/index.js"></script>
+    <script src="js/apps/backup/index.js"></script>
+    <script src="js/apps/remote-desktop/index.js"></script>
+
+    <!-- ==================== BOOTLOADER ==================== -->
+    <script src="js/core/boot.js"></script>
 </body>
-    </html>
+</html>
