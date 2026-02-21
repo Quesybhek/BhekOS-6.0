@@ -79,7 +79,189 @@ const ASSETS = [
     '/js/apps/remote-desktop/index.js',
     
     // Boot
-    '/js/core/boot.js'
+    '/js/core/boot.js',
     
-    // Icons removed - using data URIs instead
+    // Icons
+    '/icons/icon-192.png',
+    '/icons/icon-512.png',
+    '/icons/shortcut-files.png',
+    '/icons/shortcut-settings.png',
+    '/icons/shortcut-chat.png',
+    '/icons/shortcut-users.png',
+    '/icons/default-avatar.png'
 ];
+
+// Install event - cache assets
+self.addEventListener('install', (event) => {
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then((cache) => {
+                console.log('Caching assets');
+                return cache.addAll(ASSETS);
+            })
+            .then(() => self.skipWaiting())
+    );
+});
+
+// Activate event - clean old caches
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys().then((keys) => {
+            return Promise.all(
+                keys.filter((key) => key !== CACHE_NAME)
+                    .map((key) => caches.delete(key))
+            );
+        }).then(() => self.clients.claim())
+    );
+});
+
+// Fetch event - serve from cache, fallback to network
+self.addEventListener('fetch', (event) => {
+    // Skip non-GET requests
+    if (event.request.method !== 'GET') return;
+    
+    // Handle API requests
+    if (event.request.url.includes('/api/')) {
+        event.respondWith(handleAPIRequest(event.request));
+        return;
+    }
+    
+    // Handle WebSocket connections
+    if (event.request.url.includes('/ws/')) {
+        return;
+    }
+    
+    event.respondWith(
+        caches.match(event.request)
+            .then((response) => {
+                if (response) {
+                    return response;
+                }
+                
+                return fetch(event.request).then((networkResponse) => {
+                    // Don't cache non-successful responses
+                    if (!networkResponse || networkResponse.status !== 200) {
+                        return networkResponse;
+                    }
+                    
+                    // Cache the new asset
+                    const responseClone = networkResponse.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseClone);
+                    });
+                    
+                    return networkResponse;
+                });
+            })
+            .catch(() => {
+                // Return offline page for HTML requests
+                if (event.request.headers.get('accept').includes('text/html')) {
+                    return caches.match('/offline.html');
+                }
+            })
+    );
+});
+
+// Handle API requests with offline queue
+async function handleAPIRequest(request) {
+    try {
+        const response = await fetch(request.clone());
+        return response;
+    } catch (error) {
+        // Store in offline queue for later sync
+        const clone = request.clone();
+        const db = await openOfflineDB();
+        
+        await db.add('offlineQueue', {
+            id: Date.now() + Math.random(),
+            url: clone.url,
+            method: clone.method,
+            headers: Array.from(clone.headers.entries()),
+            body: await clone.text(),
+            timestamp: Date.now()
+        });
+        
+        return new Response(
+            JSON.stringify({ queued: true, message: 'Request queued for offline sync' }),
+            { status: 202, headers: { 'Content-Type': 'application/json' } }
+        );
+    }
+}
+
+// Open IndexedDB for offline queue
+function openOfflineDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('OfflineQueue', 1);
+        
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => resolve(request.result);
+        
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('offlineQueue')) {
+                db.createObjectStore('offlineQueue', { keyPath: 'id' });
+            }
+        };
+    });
+}
+
+// Background sync for offline data
+self.addEventListener('sync', (event) => {
+    if (event.tag === 'sync-data') {
+        event.waitUntil(syncOfflineData());
+    }
+});
+
+async function syncOfflineData() {
+    const db = await openOfflineDB();
+    const tx = db.transaction('offlineQueue', 'readwrite');
+    const store = tx.objectStore('offlineQueue');
+    const requests = await store.getAll();
+    
+    for (const req of requests) {
+        try {
+            const response = await fetch(req.url, {
+                method: req.method,
+                headers: new Headers(req.headers),
+                body: req.body
+            });
+            
+            if (response.ok) {
+                await store.delete(req.id);
+            }
+        } catch (error) {
+            console.error('Sync failed:', error);
+        }
+    }
+}
+
+// Push notifications
+self.addEventListener('push', (event) => {
+    const data = event.data.json();
+    
+    const options = {
+        body: data.body,
+        icon: 'icons/icon-192.png',
+        badge: 'icons/icon-192.png',
+        vibrate: [200, 100, 200],
+        data: data.data,
+        actions: data.actions || []
+    };
+    
+    event.waitUntil(
+        self.registration.showNotification(data.title, options)
+    );
+});
+
+// Notification click
+self.addEventListener('notificationclick', (event) => {
+    event.notification.close();
+    
+    if (event.action) {
+        // Handle action buttons
+        clients.openWindow(`/?action=${event.action}`);
+    } else {
+        // Open main window
+        clients.openWindow('/');
+    }
+});
